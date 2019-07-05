@@ -1,0 +1,296 @@
+import 'package:flutter_web/material.dart';
+import 'package:intl/intl.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MyHomePage(title: 'Flutter Petri dish'),
+    );
+  }
+}
+
+//
+// ----------------- app start ---------------------------------
+//
+var futureQtd = 10;
+var pastQtd = 4;
+//
+// ----------------- functions ---------------------------------
+//
+adicionaFuturo() {
+  futureQtd = futureQtd + 1;
+  print("adicionaFuturo");
+}
+
+adicionaPassado() {
+  pastQtd = pastQtd + 1;
+  print("adicionaPassado"); 
+}
+
+addTime(_addHours) {
+  var _nowTime = new DateTime.now();
+  var _returnAddTime;
+  _nowTime = _nowTime.add(new Duration(hours: _addHours));
+
+  // var _day = _nowTime.day;
+  // var _hour = _nowTime.hour;
+  var formatter;
+  var formatted;
+  // if (_addHours == 0) {
+  //   formatter = new DateFormat('E d MMM . HH:MM');
+  //     formatted = formatter.format(_nowTime);
+  // _returnAddTime = "$formatted     $_addHours.h";
+  // } else {
+  formatter = new DateFormat('E. HH:00');
+  formatted = formatter.format(_nowTime);
+  _returnAddTime = "$formatted     $_addHours.h";
+  // }
+
+  return _returnAddTime;
+}
+
+//
+// ----------------- widgets ---------------------------------
+//
+class MyHomePage extends StatelessWidget {
+  MyHomePage({Key key, this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    // The Flutter framework has been optimized to make rerunning build methods
+    // fast, so that you can just rebuild anything that needs updating rather
+    // than having to individually change instances of widgets.
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+      ),
+      body: BodyLM(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+           adicionaFuturo();
+        },
+        child: Icon(Icons.add),
+      ),
+
+      //palhacada para ficar no meio
+      // Row(
+      //   mainAxisAlignment: MainAxisAlignment.center,
+      //   children: <Widget>[
+      //     Column(
+      //       mainAxisAlignment: MainAxisAlignment.center,
+      //       children: <Widget>[
+      //         BodyLM()
+      //       ],
+      //     )
+      //   ],
+      // )
+
+      // Center(
+      //   // Center is a layout widget. It takes a single child and positions it
+      //   // in the middle of the parent.
+      //   child: Column(
+      //     // Column is also layout widget. It takes a list of children and
+      //     // arranges them vertically. By default, it sizes itself to fit its
+      //     // children horizontally, and tries to be as tall as its parent.
+      //     //
+      //     // Invoke "debug painting" (choose the "Toggle Debug Paint" action
+      //     // from the Flutter Inspector in Android Studio, or the "Toggle Debug
+      //     // Paint" command in Visual Studio Code) to see the wireframe for each
+      //     // widget.
+      //     //
+      //     // Column has various properties to control how it sizes itself and
+      //     // how it positions its children. Here we use mainAxisAlignment to
+      //     // center the children vertically; the main axis here is the vertical
+      //     // axis because Columns are vertical (the cross axis would be
+      //     // horizontal).
+      //     mainAxisAlignment: MainAxisAlignment.center,
+      //     children: <Widget>[
+      //       BodyLM(),
+      //     ],
+      //   ),
+      // ),
+      // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+
+class BodyLM extends StatefulWidget {
+  @override
+  _BodyLMState createState() => _BodyLMState();
+}
+
+class _BodyLMState extends State<BodyLM> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            // // EACH COLLUM WILL HAVE
+            // WidgTimeAbove(),
+            WidgTime("localizacao: USA"),
+            WidgTime("localizacao: AUST"),
+            // WidgTimeUnder()
+          ],
+        )
+      ],
+    );
+  } 
+}
+
+class WidgTime extends StatefulWidget {
+  WidgTime(String localizacao);
+  
+  
+  @override
+  _WidgTimeState createState() => _WidgTimeState();
+}
+
+class _WidgTimeState extends State<WidgTime> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              "Click to more past",
+              style: TextStyle(color: Color.fromRGBO(255, 0, 0, 0.5)),
+            ),
+            WidgTimePast(), //above ------------pendente-----------
+            WidgTimeNow(), //now
+            WidgTimeFutute(), //under ------------pendente-----------
+            Text(
+              "Click to more future",
+              style: TextStyle(color: Color.fromRGBO(255, 0, 0, 0.5)),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+//
+//
+class WidgTimeNow extends StatelessWidget {
+  final horarissss = addTime(0);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            "$horarissss",
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                backgroundColor: Color.fromRGBO(255, 0, 0, 0.25)),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+//
+//
+class WidgTimePast extends StatefulWidget {
+  @override
+  _WidgTimePastState createState() => _WidgTimePastState();
+}
+
+class _WidgTimePastState extends State<WidgTimePast> {
+
+  
+  @override
+  Widget build(BuildContext context) {
+    List<Widget> _contatos = new List.generate(
+      pastQtd,
+      (int i) => new Text(
+            addTime(i - pastQtd),
+          ),
+    );
+
+    return Center(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: _contatos,
+      ),
+    );
+  }
+}
+
+//
+//
+
+class WidgTimeFutute extends StatefulWidget {
+  @override
+  _WidgTimeFututeState createState() => _WidgTimeFututeState();
+}
+
+class _WidgTimeFututeState extends State<WidgTimeFutute> {
+  
+    funcaoChama(){
+      print("funcaoChama");
+      setState(() {
+        futureQtd = futureQtd + 1;
+      });
+      print(futureQtd);
+   }           
+                
+                
+                
+  @override
+  Widget build(BuildContext context) {
+    List<Widget> _contatos = new List.generate(
+        futureQtd,
+        (int i) => new InkWell(
+              child: Text(addTime(i + 1)),
+              onTap: ()=>{
+                print("deu tap no adicionaPassado"),
+                funcaoChama()
+                },
+            ));
+
+    return Center(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: _contatos,
+      ),
+    );
+
+    // int futureQtd2 = futureQtd;
+    //     return ValueListenableBuilder(
+    //               builder: (BuildContext context, int value, Widget child) {
+    //                 // This builder will only get called when the _counter
+    //                 // is updated.
+    //                 return Row(
+    //                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    //                   children: <Widget>[
+    //                     Text('$value'),
+    //                     child,
+    //                   ],
+    //                 );
+    //               },
+    //               valueListenable: futureQtd2,
+    //           // The child parameter is most helpful if the child is
+    //           // expensive to build and does not depend on the value from
+    //           // the notifier.
+    //         );
+  }
+}

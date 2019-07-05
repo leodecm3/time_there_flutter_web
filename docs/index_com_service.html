@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#005f97">
+	
+	<!--Title-->
+	<title>APP XPTO®</title>
+	
+	<!--Vue.js-->
+	<script src="js/vue.min.js"></script>
+	
+	<!-- Favicon-->
+	<link rel="icon" type="image/png" href="img/icon.png" sizes="32x32" />	
+	<link rel="apple-touch-icon" href="img/icon.png">
+	
+	<!--Stylesheet-->
+	<link rel="stylesheet" type="text/css" href="css/style.css" media="all">
+	
+	<!--Manifest-->
+	<link rel="manifest" href="/manifest.json">
+	
+</head>
+
+<body>
+
+	<div id="app">
+		<h1>{{message}}</h1>
+	</div>
+
+	<!-- Update bar informartion-->
+	<div id="snackbar">Versão Offline atualizada com sucesso.</div>
+	
+	<script>
+		new Vue({
+			el: '#app',
+			data: {
+				message: 'APP Versão 1.0.13'
+			}
+		});
+	</script>
+		
+</body>
+	
+<script>
+  
+	let newWorker;
+	
+	function showUpdateBar() {
+	let snackbar = document.getElementById('snackbar');
+	snackbar.className = 'show';
+	}
+
+	if ('serviceWorker' in navigator) {
+	navigator.serviceWorker.register('/service-worker.js').then(reg => {
+	  reg.addEventListener('updatefound', () => {
+		// A wild service worker has appeared in reg.installing!
+		newWorker = reg.installing;
+		newWorker.addEventListener('statechange', () => {
+		  // Has network.state changed?
+		  switch (newWorker.state) {
+			case 'installed':
+			  if (navigator.serviceWorker.controller) {
+				// new update available
+				showUpdateBar();
+				newWorker.postMessage({ action: 'skipWaiting' });
+			  }
+			  // No update available
+			  break;
+		  }
+		});
+	  });
+	});
+
+	let refreshing;
+	
+	navigator.serviceWorker.addEventListener('controllerchange', function () {
+	  if (refreshing) return;
+	  window.location.reload();
+	  refreshing = true;
+	});
+	}
+</script>
+
+</html>

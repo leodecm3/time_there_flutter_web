@@ -1,0 +1,27 @@
+{
+  "name": "APP XPTO",
+  "short_name": "AppXPTO",
+  "theme_color": "#005f97",
+  "background_color": "#005f97",
+  "display": "fullscreen",  
+  "start_url": "/",
+  "scope": "/",
+  "gcm_sender_id": "103953800507",  
+  "lang": "pt-BR",
+  "orientation": "portrait",  
+  "icons": [{
+      "src": "img/icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    }, {
+      "src": "img/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "img/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]  
+}

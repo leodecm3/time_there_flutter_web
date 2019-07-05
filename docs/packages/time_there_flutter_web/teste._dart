@@ -1,0 +1,289 @@
+import 'package:flutter_web/material.dart';
+import 'package:intl/intl.dart';
+// import 'package:timezone/browser.dart';
+// import 'package:timezone/timezone.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MyHomePage(title: 'Flutter Petri dish2'),
+    );
+  }
+}
+
+//
+// ----------------- app start ---------------------------------
+//
+
+//
+// ----------------- functions ---------------------------------
+//
+
+//
+// ----------------- widgets ---------------------------------
+//
+class MyHomePage extends StatelessWidget {
+  MyHomePage({Key key, this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    // The Flutter framework has been optimized to make rerunning build methods
+    // fast, so that you can just rebuild anything that needs updating rather
+    // than having to individually change instances of widgets.
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+      ),
+      body: Container(
+        child: BodyLayout(),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // adicionaFuturo();
+        },
+        child: Icon(Icons.add),
+      ),
+
+      //palhacada para ficar no meio
+      // Row(
+      //   mainAxisAlignment: MainAxisAlignment.center,
+      //   children: <Widget>[
+      //     Column(
+      //       mainAxisAlignment: MainAxisAlignment.center,
+      //       children: <Widget>[
+      //         BodyLM()
+      //       ],
+      //     )
+      //   ],
+      // )
+
+      // Center(
+      //   // Center is a layout widget. It takes a single child and positions it
+      //   // in the middle of the parent.
+      //   child: Column(
+      //     // Column is also layout widget. It takes a list of children and
+      //     // arranges them vertically. By default, it sizes itself to fit its
+      //     // children horizontally, and tries to be as tall as its parent.
+      //     //
+      //     // Invoke "debug painting" (choose the "Toggle Debug Paint" action
+      //     // from the Flutter Inspector in Android Studio, or the "Toggle Debug
+      //     // Paint" command in Visual Studio Code) to see the wireframe for each
+      //     // widget.
+      //     //
+      //     // Column has various properties to control how it sizes itself and
+      //     // how it positions its children. Here we use mainAxisAlignment to
+      //     // center the children vertically; the main axis here is the vertical
+      //     // axis because Columns are vertical (the cross axis would be
+      //     // horizontal).
+      //     mainAxisAlignment: MainAxisAlignment.center,
+      //     children: <Widget>[
+      //       BodyLM(),
+      //     ],
+      //   ),
+      // ),
+      // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+
+class BodyLayout extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return _myListView(context);
+  }
+}
+
+//com separador
+Widget _myListView(BuildContext context) {
+  return ListView.separated(
+    itemCount: 100,
+    controller: ScrollController(initialScrollOffset: 1000),
+// controller: ScrollController(initialScrollOffset: 20),
+    itemBuilder: (context, index) {
+      return ListTile(
+        title: LineWithHours(index: index),
+        // contentPadding: EdgeInsets.all(0.0),
+      );
+    },
+    // itemBuilder: (context, index) => Padding(
+    //     padding: EdgeInsets.all(8.0),
+    //     child: Center(child: Text("Index $index")),
+    //   ),
+    separatorBuilder: (context, index) {
+      // return Divider(
+      //   color: Colors.black,
+      //   // indent: 1.0,
+      // );
+      return Container(
+        color: Colors.grey,
+        height: 0.5,
+      );
+    },
+  );
+}
+
+addTimeTop(_addHours, localzacao) {
+  var _nowTime = new DateTime.now().toUtc();
+
+  var _returnAddTime;
+  _nowTime = _nowTime.add(new Duration(hours: _addHours));
+
+  if (localzacao == "Sydney") {
+    _nowTime = _nowTime.add(new Duration(hours: 10));
+  }
+  ;
+
+  if (localzacao == "Florida") {
+    _nowTime = _nowTime.subtract(new Duration(hours: 10));
+  }
+  ;
+
+  // var _day = _nowTime.day;
+  // var _hour = _nowTime.hour;
+  var formatter;
+  var formatted;
+  if (_addHours == 0) {
+    formatter = DateFormat('HH:mm');
+    formatted = formatter.format(_nowTime);
+    _returnAddTime = "$formatted     $_addHours.h";
+  } else {
+    formatter = DateFormat('HH:00');
+    formatted = formatter.format(_nowTime);
+    _returnAddTime = "$formatted     $_addHours.h";
+  }
+
+  return _returnAddTime;
+}
+
+addTimeBotom(_addHours, localzacao) {
+  var _nowTime = new DateTime.now().toUtc();
+
+  var _returnAddTime;
+  _nowTime = _nowTime.add(new Duration(hours: _addHours));
+
+  if (localzacao == "Sydney") {
+    _nowTime = _nowTime.add(new Duration(hours: 10));
+  }
+  ;
+
+  if (localzacao == "Florida") {
+    _nowTime = _nowTime.subtract(new Duration(hours: 10));
+  }
+  ;
+
+  // var _day = _nowTime.day;
+  // var _hour = _nowTime.hour;
+  var formatter;
+  var formatted;
+  // if (_addHours == 0) {
+  //   formatter = new DateFormat('E d MMM . HH:MM');
+  //     formatted = formatter.format(_nowTime);
+  // _returnAddTime = "$formatted     $_addHours.h";
+  // } else {
+  formatter = new DateFormat('EEE dd');
+  formatted = formatter.format(_nowTime);
+  _returnAddTime = "$formatted";
+  // }
+
+  return _returnAddTime;
+}
+
+iconeLm(_addHours, localzacao) {
+  var _icone;
+
+  if (_addHours == 0) {
+    if (localzacao == "Florida") {
+      _icone = Image.asset('image/direita.jpg');
+    } else {
+      //sydney
+      // _icone = AssetImage('image/esquerda.jpg');
+      _icone = Image.asset('image/esquerda.jpg');
+    }
+  } else {
+    _icone = Container();
+  }
+
+  return _icone;
+}
+
+class LineWithHours extends StatelessWidget {
+  LineWithHours({this.index});
+
+  minhaFuncao(index) {
+    // print("rodou a funcao com $index");
+    var _horas = index - 24;
+    var texto1Esquerd;
+    var texto2Esquerd;
+    var texto1Direita;
+    var texto2Direita;
+    var _corDeFundo;
+    if (_horas == 0) {
+      _corDeFundo = Colors.red[100];
+    } else {
+      _corDeFundo = Colors.grey[100];
+    }
+
+    texto1Esquerd = addTimeTop(_horas, "Sydney");
+    texto2Esquerd = addTimeBotom(_horas, "Sydney");
+    texto1Direita = addTimeTop(_horas, "Florida");
+    texto2Direita = addTimeBotom(_horas, "Florida");
+
+    // return Text('aa $index');
+    return new Container(
+      color: _corDeFundo,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          iconeLm(_horas, "Sydney"),
+          Column(
+            // coluna aqui
+            children: <Widget>[
+              Text(
+                texto1Esquerd,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Text(
+                texto2Esquerd,
+                style: TextStyle(
+                  color: Colors.black.withOpacity(0.6),
+                ),
+              )
+            ],
+          ),
+          Column(
+            // coluna la
+            children: <Widget>[
+              Text(
+                texto1Direita,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Text(
+                texto2Direita,
+                style: TextStyle(
+                  color: Colors.black.withOpacity(0.6),
+                ),
+              )
+            ],
+          ),
+          iconeLm(_horas, "Florida"),
+        ],
+      ),
+    );
+  }
+
+  final index;
+  @override
+  Widget build(BuildContext context) {
+    return minhaFuncao(index);
+  }
+}

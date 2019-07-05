@@ -68,8 +68,10 @@ EXIT
 :: COMECA AQUI ------
 
 
+::--------------------------------altere aqui o repositorio
 Set defaultRepos="https://github.com/leodecm3/time_there_flutter_web.git"
 Set defaultComment=%_yyyy% %_mm% %_dd% %_hour% %_minute% %_second%
+
 
 @ECHO OFF
 ECHO .
@@ -82,6 +84,8 @@ ECHO .           2) comment
 ECHO .
 ECHO .
 ECHO .
+
+
 
 ECHO repositorio eh esse?  %defaultRepos%
 set repo=""

@@ -49,19 +49,12 @@ web\assets\FontManifest.json
 
 Also include it in `pubspec.yaml` :
 
-nothing (on mobile version it requires `intl: ^0.15.7` , IDK why on fluter-web its not required)
-
-<!-- 
 ```yaml
-dependencies:
-  intl: ^0.15.7
 
-flutter:
-  assets:
-    - assets/direita-usa.jpg
-    - assets/esquerda-aus.jpg
+# nothing
+# on mobile version it requires `intl: ^0.15.7` , IDK why on fluter-web its not required
+
 ``` 
--->
 
 - `intl: ^0.15.7` is used to get date formation
 
@@ -72,7 +65,18 @@ flutter:
 Same as any flutter code:
 
 ```bash
-flutter run
+
+flutter pub global run webdev serve --auto restart
+start chrome --new-window --incognito --new-window http://localhost:8080/
+
+```
+
+## Build
+
+```bash
+
+flutter pub global run webdev build
+
 ```
 
 ## License
